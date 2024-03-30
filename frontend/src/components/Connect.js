@@ -46,7 +46,7 @@ const Connect = () => {
               }
               return (
                 <div style={{ display: 'flex', gap: 12 }}>
-                  <button
+                  <button className='text-white'
                     onClick={openChainModal}
                     style={{ display: 'flex', alignItems: 'center' }}
                     type="button"
@@ -63,7 +63,7 @@ const Connect = () => {
                         }}
                       >
                         {chain.iconUrl && (
-                          <img
+                          <img className='text-white'
                             alt={chain.name ?? 'Chain icon'}
                             src={chain.iconUrl}
                             style={{ width: 12, height: 12 }}
@@ -73,7 +73,7 @@ const Connect = () => {
                     )}
                     {chain.name}
                   </button>
-                  <button onClick={openAccountModal} type="button">
+                  <button onClick={openAccountModal} type="button" className='text-white'>
                     {account.displayName}
                     {account.displayBalance
                       ? ` (${account.displayBalance})`
