@@ -24,26 +24,56 @@ connection.once('open', () => {
     console.log('MongoDB database connection established successfully');
 });
 
-// Define a Mongoose schema and model
-const dataSchema = new mongoose.Schema({
-    // Define schema fields here
-    // Example:
-    // name: String,
-    // description: String,
+// Define a Mongoose schema and model for POS data
+const posSchema = new mongoose.Schema({
+    _id: String,
+    lex: String,
+    tokens: String,
+    fullCode: String,
+    ast: String,
+    parser: String,
+    result: String,
+    context: String,
+    symbolTable: String,
+    executionTime: Number,
+    resultValue: String,
+    account: String,
+    type: String,
+    transaction: Object
 });
 
-const DataModel = mongoose.model('Data', dataSchema);
+const POSModel = mongoose.model('POS', posSchema);
 
-// Define route to fetch all data
-app.get('/api/data', async (req, res) => {
+app.get('/api/pos', async (req, res) => {
     try {
-        const data = await DataModel.find({});
-        res.json(data);
+        const posData = await POSModel.find({});
+        res.json(posData);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Server error' });
     }
 });
+app.get('/api/pos/core', async (req, res) => {
+    try {
+        const corePosData = await POSModel.find({ type: 'core' });
+        res.json(corePosData);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.get('/api/pos/polygon', async (req, res) => {
+    try {
+        const polygonPosData = await POSModel.find({ type: 'polygon' });
+        res.json(polygonPosData);
+        console.log(res);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 
 // Start the server
 app.listen(port, () => {

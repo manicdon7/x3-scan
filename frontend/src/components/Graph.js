@@ -2,7 +2,7 @@ import { createClient } from "urql";
 import { useEffect, useState } from 'react';
 
 function Graph({ onDataReceived }) {
-    const [dataAddeds, setDataAddeds] = useState([]); // Changed variable name to match GraphQL response
+    const [dataAddeds, setDataAddeds] = useState([]);
     const QueryURL = "https://api.studio.thegraph.com/query/69474/raj/version/latest";
     const query = `
  {
@@ -22,8 +22,8 @@ function Graph({ onDataReceived }) {
         const getDataAddeds = async () => {
             const { data } = await client.query(query).toPromise();
             console.log(data);
-            setDataAddeds(data.dataAddeds); // Fixed the case of dataAddeds
-            onDataReceived(data.dataAddeds); // Call the function to pass fetched data to the parent component
+            setDataAddeds(data.dataAddeds);
+            onDataReceived(data.dataAddeds);
         }
         getDataAddeds();
     }, [onDataReceived]);
