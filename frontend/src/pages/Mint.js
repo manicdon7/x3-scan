@@ -50,18 +50,26 @@ const Mint = () => {
             // const address = await signer.getAddress();
     
             // Estimate gas required for minting
-            const gasEstimate = await contract.estimateGas.mintNFT(address, `ipfs://${transactionId}`);
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            console.log(provider);
+            const signer = provider.getSigner();
+            console.log(signer);
+            const address = await signer.getAddress();
+            const token = `https://ipfs.io/ipfs/QmT1EZTTeR9Z9oXx7WQjfHDnUMRKYV3JVcoq2EoKupZzu5`;
+            console.log(address)
+            const gasEstimate = await contract.proof(address,token)
+            await gasEstimate.wait()
     
             // Request user's approval to pay gas fees
-            const tx = await signer.sendTransaction({
-                to: contract.address,
-                data: contract.interface.encodeFunctionData('mintNFT', [address, `ipfs://${transactionId}`]),
-                gasLimit: gasEstimate,
-                value: ethers.utils.parseEther('0.1'),
-            });
-            await tx.wait();
+            // const tx = await signer.sendTransaction({
+            //     to: contract.address,
+            //     data: contract.interface.encodeFunctionData('mintNFT', [address, `ipfs://${transactionId}`]),
+            //     gasLimit: gasEstimate,
+            //     value: ethers.utils.parseEther('0.1'),
+            // });
+            // await tx.wait();
     
-            console.log("NFT minted successfully. Transaction ID:", tx.hash);
+            console.log("NFT minted successfully. Transaction ID:", gasEstimate.hash);
             const metadata = {
                 name: "X3 pow",
                 description: "proof of work for the X3 project",
